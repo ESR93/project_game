@@ -1,0 +1,88 @@
+* {
+    background: #FFFEF2;
+}
+.block {
+    padding: 20px 20px 20px 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#start_btn{
+    background: green;
+    text-shadow: 1px 1px 4px darkgray ;
+    color: cornsilk;
+    width: 92vw;
+    height: 6vh;
+    margin: 1vh 0 0 3vw;
+    font-size: 14px;
+    border-radius: 1vh;
+}
+.txt_cent {
+    display: flex;
+    justify-content: center;
+    padding: 5px 20px 5px 20px;
+    color: dimgrey;;
+}
+
+.cappy {
+    padding: 2px 20px 2px 20px;
+}
+
+.btn_main{
+    background: brown;
+    text-shadow: 1px 1px 4px darkgray ;
+    color: cornsilk;
+    width: 45vw;
+    height: 8vh;
+    border-radius: 1vh;
+    font-size: 16px;
+}
+.btn_secnd{
+    color: black;
+    text-shadow: 1px 1px 4px blanchedalmond ;
+    background: gray;
+    height: 5vh;
+    border-radius: 1vh;
+    font-size: 12px;  
+}
+
+.quantbtn {
+    width: 45vw;
+}
+.verbbtn {
+    width: 29.5vw;
+}
+
+.replecement{
+    width: 73.5vw;
+    margin: 3.5vw;
+    background: blanchedalmond;
+    border-radius: 1vh;
+    height: 2vh;
+}
+
+.widmid {
+    width: 70vw;
+    margin: 3.5vw;
+    background: gray;
+    border-radius: 1vh;
+
+}
+
+.right_part {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: orange;
+    padding: 30px;
+}
+
+.left_part {
+    display: flex;
+    flex-direction: column;
+    background: orangered;
+    justify-content: space-between;
+    padding: 30px;
+    width: 335px;
+}
