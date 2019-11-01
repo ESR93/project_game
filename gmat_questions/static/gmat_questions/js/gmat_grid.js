@@ -13,9 +13,6 @@ let finalRes
 let nodeClasses=['prob_solv', 'data_suf','critical','correct',]
 let dataAttr=['Problem Solving','Data Sufficiency','Critical Reasoning','Sentence Correction',]
 
-let $gmat = document.querySelectorAll('input')[0].cloneNode(true)
-
-
 // COMPLETION PROCESS RELATED
 
 // 1. NEW OBJECT OF CHRONOMETER CLASS
@@ -270,4 +267,5 @@ gmatDOM.style.display = "none"
     })
     console.log(gmatDOM.querySelector('.widmid'))
   }
+
   export default finalRes

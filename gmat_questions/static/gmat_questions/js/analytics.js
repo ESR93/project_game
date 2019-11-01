@@ -5,7 +5,6 @@ let barLables = []
 let barData = []
 let dataAttr=['Problem Solving','Data Sufficiency','Critical Reasoning','Sentence Correction']
 
-import {finalRes} from '../../gmat_questions/js/gmat_grid'
 console.log(finalRes)
 console.log(lineData)
 

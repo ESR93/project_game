@@ -6,7 +6,7 @@ from rest_framework import generics
 
 # Create your views here.
 
-class QuestionsViewSet(generics.ListAPIView):
+class QuestionsViewSet(generics.ListCreateAPIView):
     serializer_class = QuestionsSerializer
     queryset = Questions.objects.all()
 
