@@ -5,57 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="path/to/chartjs/dist/Chart.js"></script>
-    <link rel="stylesheet" href="/Module1/week3/project_game/gmat_questions/static/gmat_questions/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="static/gmat_questions/css/style.css">
     <title>Document</title>
 </head>
 <body>
+    <script type = 'module' src="static/gmat_questions/js/analytics.js"></script>
     <div class="txt_cent">
-        <h1>Are you ready to test yourself? &#128556;</h1>
+            <h1>NOW LETS SEE THE RESULTS</h1>
+        </div>
+    <div class="txt_cent">
+        <div class='placeholder'></div>
     </div>
     <div>
-        
-        <div class = 'block cappy'>
-            <div><button class="btn_main" id="quant">Quant</button></div>
-            <div><button class="btn_main" id="verb">Verbal</button></div>
-        </div>
-        <div class = 'block cappy'>
-            <div><button class="btn_secnd quantbtn" id="prob_solv">Problem Sovling</button></div>
-            <div><button class="btn_secnd quantbtn" id="data_suf">Data Sufficiency</button></div>
-        </div>
-        <div class = 'block cappy'>
-            <div><button class="btn_secnd verbbtn" id="reading">Reading Comprehention</button></div>
-            <div><button class="btn_secnd verbbtn" id="critical">Critical Thinking</button></div>
-            <div><button class="btn_secnd verbbtn" id="correct">Sentence Correction</button></div>
-        </div>
-        <div><button id="start_btn">START</button></div>
-    </div>
-    <div class = 'gmat_block'>
-        <div class = 'block widmid'>
-            <div class="left_part">
-                <div class="q_context">context</div>
-                <div class="q_img">picture</div>
-                <div class="q_text">question</div>
-                <div class="answers"><p>answers:</p>
-                    <span>
-                        <input type="radio" name="question" value="option 1"> option 1<br>
-                        <input type="radio" name="question" value="option 2"> option 2<br>
-                        <input type="radio" name="question" value="option 3"> option 3<br>
-                        <input type="radio" name="question" value="option 4"> option 4<br>
-                        <input type="radio" name="question" value="option 5"> option 5<br>
-                    </span>
-                </div>
-            </div>
-            <div class = 'right_part'>
-                <div>
-                    <div >      
-                        <span class="minDec number">0</span><span class="minUni number">0</span><span>:</span><span class="secDec number">0</span><span class="secUni number">0</span>
+            <div class = 'block cappy '>
+                    <div class="equal">
+                        <span>Your preformance:</span>
+                        <ol>
+                            <li><div class="block cappy">
+                                <div>Questions scored correctly:</div> <div id='score_correct'>3/4</div>
+                            </div></li>
+                            <li><div class="block cappy">
+                                <div>The best time for correct question:</div> <div id='fastest'>3/4</div>
+                            </div></li>
+                            <li><div class="block cappy">
+                                <div>The average time per question:</div> <div id='averagest'>3/4</div>
+                            </div></li>
+                        </ol>
                     </div>
-                    <div >figure</div>
-                </div>
-                <div class="next_btn" >
-                    <button>NEXT</button>
-                </div>
+                    <div >
+                        <span>
+                            <div class="equal">
+                                Based on difficult calculations of our advanced machine learning blockchain enabled digitally transformed engine your GMAT score is estimated to be
+                            </div>
+                            <div class="big_num">680</div>
+                            <div>
+                                You can be proud of yourself! &#129322;    
+                            </div>
+                        </span>
+                    </div>
+                </div> 
+                <div class='placeholder'></div>       
+        <div class = 'block cappy'>
+            <div><button class="btn_main" style="width: 800px;" id="quant">COMPARE YOUR PERFORMANCE TO THE REST</button></div>
+        </div>
+        <div class = 'block cappy'>
+            <div >
+                <canvas id="line-chart" width="400" height="250"></canvas>
             </div>
+            <div >
+                <canvas id="radar-chart" width="400" height="250"></canvas>
+            </div>
+        </div>
 </body>
 </html>

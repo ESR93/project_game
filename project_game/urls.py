@@ -16,12 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from gmat_questions.views import QuestionsViewSet, AnswersViewSet
+from gmat_questions.views import QuestionsViewSet, AnswersViewSet, QuestionAnswersViewSet
+from gmat_questions import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/get', QuestionsViewSet.as_view()),
     path('api/post', AnswersViewSet.as_view()),
+    path('api/get_answers', QuestionAnswersViewSet.as_view()),
+    path('', views.index, name = 'index'),
+    path('stats', views.stats, name = 'stats')
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -7,10 +7,11 @@
 let gmatData = []
 let questionPost = []
 let postArr = []
+let finalRes
 
 // 2.MAPPING OF DB ATTRIBUTES WITH JS CLASSES
-let nodeClasses=['prob_solv', 'data_suf','reading','critical','correct',]
-let dataAttr=['Problem Solving','Data Sufficiency','Reading Comprehension','Critical Reasoning','Sentence Correction',]
+let nodeClasses=['prob_solv', 'data_suf','critical','correct',]
+let dataAttr=['Problem Solving','Data Sufficiency','Critical Reasoning','Sentence Correction',]
 
 let $gmat = document.querySelectorAll('input')[0].cloneNode(true)
 
@@ -87,7 +88,7 @@ function visibleBtn() {
     })
   }
 
-function valueCreator(input){
+function valueCreator(input, num){
   let postGMAT = {
     "choice_id": null,
     "question_number": null,
@@ -96,13 +97,13 @@ function valueCreator(input){
   }
   let formsGMAT = input.querySelectorAll('input')
   let f = false
-  formsGMAT.forEach(function(elem,i)
+  formsGMAT.forEach(function(elem)
     {
       if(elem.type="radio") { 
         if(elem.checked) {
           f = true
           postGMAT.choice_id=parseFloat(input.id)
-          postGMAT.question_number=i+1
+          postGMAT.question_number=(num+1)
           postGMAT.time_spent=chronometer.currentTime
           postGMAT.correct=elem.value
         }
@@ -115,6 +116,8 @@ function valueCreator(input){
 
 function moveStuff () {
   document.getElementById('start_btn').onclick = () => {
+  chronometer.stopClick()
+  chronometer.resetClick()
   if (state.ready){
       let replacement = gmatDOM.querySelectorAll('.replecement')
       gmatDOM.querySelector('.widmid').style.display = 'flex' 
@@ -124,16 +127,20 @@ function moveStuff () {
       for(let i=1;i<5;i++) {
         let $btn = $elem[i-1].querySelectorAll('.next_btn')
         $btn[0].onclick = () => {
-          $elem[i].style.display = 'flex'
-          replacement[i].style.display = 'none'
-          $elem[i-1].style.display = 'none'
-          replacement[i-1].style.display = 'block'
-          clearInterval(document.secInt)
-          chronometer.stopClick()
-          if (valueCreator($elem[i-1]))
-            postArr.push(valueCreator($elem[i-1]))
-          chronometer.resetClick()
-          isStart[i] = true
+          if (valueCreator($elem[i-1],(i-1)))
+          {
+            console.log((i-1))
+            postArr.push(valueCreator($elem[i-1],(i-1)))
+            chronometer.resetClick()
+            $elem[i].style.display = 'flex'
+            replacement[i].style.display = 'none'
+            $elem[i-1].style.display = 'none'
+            replacement[i-1].style.display = 'block'
+            clearInterval(document.secInt)
+            chronometer.stopClick()
+            isStart[i] = true
+          }
+          else throw "Please select the choice first"
           printTime($elem[i].querySelectorAll('.right_part')[0],i)
           if(i===4)
           {
@@ -143,13 +150,12 @@ function moveStuff () {
       }
       $elem[4].querySelectorAll('.next_btn')[0].onclick = () => {
         chronometer.stopClick()
-        if (valueCreator($elem[4]))
-            postArr.push(valueCreator($elem[4]))
+        if (valueCreator($elem[4],4))
+            postArr.push(valueCreator($elem[4],4))
         if(state.done){
           postArr.forEach(elem => {
             console.log(JSON.stringify(elem))
             axios.post('http://127.0.0.1:8000/api/post',elem
-            // ,{'Content-Type': 'application/json'}
             )
             .then(res => console.log(res))
             .catch(error => {
@@ -157,9 +163,11 @@ function moveStuff () {
             })
           })
         }
+        location.href = "stats";
       }
     }
   }
+  return postArr
 }
 
 
@@ -188,23 +196,31 @@ gmatDOM.style.display = "none"
       state.quant = true
       state.verb = false
       visibleBtn()
+      chronometer.stopClick()
+      chronometer.resetClick()
+    
   }
   document.getElementById('verb').onclick = function()
   {
       state.quant = false
       state.verb = true
       visibleBtn()
+      chronometer.stopClick()
+      chronometer.resetClick()
+    
   }
 
   nodeClasses.forEach(function(elem,i){
     document.getElementById(elem).onclick = () => 
 {
+      chronometer.stopClick()
+      chronometer.resetClick()
       gmatDOM.style.display = "block"
       questionPost = gmatData.filter(item => item.question_type===dataAttr[i])
       console.log(questionPost)
       questionDisplay(questionPost)
       state.ready = true
-      moveStuff ()
+      finalRes = moveStuff ()
     }
   })
 
@@ -224,14 +240,20 @@ gmatDOM.style.display = "none"
     gmatDOM.innerHTML='<div><button id="start_btn">START</button></div>';
     let gmatInput
     randomArr.forEach(function(elem,num) {
-      console.log(cloneGmat.getElementsByClassName('q_context')[0])
-      console.log(elem)
       cloneGmat.setAttribute('id',elem.id)
-      cloneGmat.getElementsByClassName('q_context')[0].innerText = elem.question_context
-      cloneGmat.getElementsByClassName('q_img')[0].innerText = `<img src='${elem.image}'>`
+      cloneGmat.getElementsByClassName('q_number')[0].innerText = `QUESTION #${num+1}`
+      if(elem.question_context!=='no')
+        cloneGmat.getElementsByClassName('q_context')[0].innerText = elem.question_context
+      else
+        cloneGmat.getElementsByClassName('q_context')[0].innerText = ""
+      if(elem.image!==null)      
+        cloneGmat.getElementsByClassName('q_img')[0].innerText = `<img src='${elem.image}'>`
+      else
+        cloneGmat.getElementsByClassName('q_img')[0].innerText = ""
+
       cloneGmat.getElementsByClassName('q_text')[0].innerText = elem.question_text
       let answerForm = ''
-      elem.answers.forEach(function(ans,i) {
+      elem.choices.forEach(function(ans,i) {
         gmatInput = cloneGmat.querySelectorAll('input')[0].cloneNode(true)
         gmatInput.setAttribute("question_number", (i+1));
         gmatInput.name = elem.question_type
@@ -244,11 +266,8 @@ gmatDOM.style.display = "none"
         cloneGmat.querySelectorAll('button')[0].innerText = 'DONE'
         cloneGmat.style.display = 'none'
       gmatDOM.innerHTML += cloneGmat.outerHTML
-      gmatDOM.innerHTML += "<div class='replecement'></div>"
+      gmatDOM.innerHTML += `<div class='replecement'>QUESTION #${num+1}</div>`
     })
     console.log(gmatDOM.querySelector('.widmid'))
   }
-
-// 3.DEFINING THE PROCCESSES LINKED TO PUSHING ACTION (START,NEXT,DONE) BUTTONS
-
-
+  export default finalRes

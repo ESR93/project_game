@@ -8,14 +8,20 @@ class ChoicesSerializer(serializers.ModelSerializer):
 
 
 class QuestionsSerializer(serializers.ModelSerializer):
-    answers = ChoicesSerializer(read_only=True, many=True, source = 'question_answer')
+    choices = ChoicesSerializer(read_only=True, many=True, source = 'question_answer')
     class Meta:
         model = Questions
-        fields = ['id', 'question_type','question_context','image','question_text','answers']
+        fields = ['id', 'question_type','question_context','image','question_text','choices']
 
 
 class AnswersSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAnswers
         fields = ['id','choice_id','question_number','time_spent','correct']
+
+class QuestionsAnsweredSerializer(serializers.ModelSerializer):
+    answers = AnswersSerializer(read_only=True, many=True, source = 'answer_choice')
+    class Meta:
+        model = Questions
+        fields = ['id', 'question_type','answers']
 
